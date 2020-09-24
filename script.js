@@ -78,6 +78,7 @@ container.addEventListener("click", function (e){
 });
 
 // Movie select event
+// instead of using function we can write arrow
 movieSelect.addEventListener('change', e => {
 ticketPrice = +e.target.value;
 setMovieData(e.target.selectedIndex,e.target.value);
