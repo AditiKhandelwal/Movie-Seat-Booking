@@ -8,7 +8,7 @@ populateUI();
 
 let ticketPrice = +movieSelect.value;
 
-//Save selected movie index and price
+//Save selected movie index and price in local storage
 function setMovieData(movieIndex, moviePrice){
     localStorage.setItem('selectedMovieIndex', movieIndex);
     localStorage.setItem('selectedMoviePrice', moviePrice);
@@ -18,11 +18,14 @@ function setMovieData(movieIndex, moviePrice){
 //Update total and count
 function updateSelectedCount(){
     const selectedSeats =  document.querySelectorAll('.row .seat.selected');
-
+    
+    // storing index of selected seats
     const seatsIndex = [...selectedSeats].map(seat => [...seats].indexOf(seat));
 
+    //saving selected seat index
    localStorage.setItem('selectedSeats', JSON.stringify(seatsIndex));
-
+   
+    // updating price and no of seats
     const selectedSeatsCount = selectedSeats.length;
     count.innerText = selectedSeatsCount;
     total.innerText = selectedSeatsCount * ticketPrice;
@@ -30,6 +33,7 @@ function updateSelectedCount(){
 
 //Get data from local storage and populate UI
 function populateUI(){
+    // get previous selected seats index
     const selectedSeats =  JSON.parse(localStorage.getItem('selectedSeats'));
     if(selectedSeats !== null && selectedSeats.length>0)
     {
@@ -39,6 +43,7 @@ function populateUI(){
             }
         });
     }
+    // get previous selected movie index
     const selectedMovieIndex =  localStorage.getItem('selectedMovieIndex');
     if(selectedMovieIndex !== null)
     {
@@ -49,8 +54,10 @@ function populateUI(){
 
 //Seat click event
 container.addEventListener("click", function (e){
+    // if clicked on seat which is not occupied than toggle selected class
  if(e.target.classList.contains('seat') && !e.target.classList.contains('occupied')){
    e.target.classList.toggle('selected');
+     //after selecting seats update count and price
    updateSelectedCount();
  }
 });
